@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.auth.server.config;
+package xiao.xss.study.demo.oauth2.auth.server.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import xiao.xss.study.demo.oauth2.auth.server.security.LoginRequestDetailsSource;
+import xiao.xss.study.demo.oauth2.auth.server.security.provider.UsernamePasswordProvider;
 
 /**
  * Spring Security Config
@@ -19,14 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private UserDetailsService userDetailsService;
+    @Autowired private UsernamePasswordProvider usernamePasswordProvider;
+    @Autowired private LoginRequestDetailsSource loginRequestDetailsSource;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(usernamePasswordProvider);
     }
 
     @Override
@@ -36,10 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
         http.csrf().disable().csrf().and()
-                .authorizeRequests().antMatchers("/login").permitAll()
+                .anonymous()
+                .authorities("ROLE_DUMMY")
                 .and()
-                .authorizeRequests().anyRequest().authenticated();
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/dummy/**").hasRole("DUMMY")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .authenticationDetailsSource(loginRequestDetailsSource)
+        ;
     }
 }

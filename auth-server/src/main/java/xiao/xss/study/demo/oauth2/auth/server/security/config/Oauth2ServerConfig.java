@@ -1,8 +1,7 @@
-package xiao.xss.study.demo.oauth2.auth.server.config;
+package xiao.xss.study.demo.oauth2.auth.server.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -12,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import xiao.xss.study.demo.oauth2.auth.server.security.LocalUserDetailsService;
 
 /**
  * OAuth2 Server Configuration
@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 public class Oauth2ServerConfig {
-    @Autowired private UserDetailsService userDetailsService;
+    @Autowired private LocalUserDetailsService localUserDetailsService;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private AuthorizationCodeServices authorizationCodeServices;
     @Autowired private TokenStore tokenStore;
@@ -62,7 +62,7 @@ public class Oauth2ServerConfig {
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             // 定义授权和令牌端点以及令牌服务
             super.configure(endpoints);
-            endpoints.userDetailsService(userDetailsService);
+            endpoints.userDetailsService(localUserDetailsService);
             endpoints.authorizationCodeServices(authorizationCodeServices);
             endpoints.reuseRefreshTokens(true);
             endpoints.tokenStore(tokenStore);
