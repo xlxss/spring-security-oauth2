@@ -32,9 +32,9 @@
     </root>
 
     <logger name="xiao.xss.study.demo">
-        <level value="debug"/>
+        <level value="info"/>
     </logger>
     <logger name="org.springframework">
-        <level value="debug"/>
+        <level value="info"/>
     </logger>
 </configuration>
