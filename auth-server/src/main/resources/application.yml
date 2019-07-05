@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oauth3?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf8&maxAllowedPacket=10485760
+    url: jdbc:mysql://localhost:3306/${DB:oauth2}?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf8&maxAllowedPacket=10485760
     username: root
     password: root
   jpa:
@@ -17,12 +17,12 @@ spring:
   session:
     store-type: none
   flyway:
-    enabled: true
+    enabled: ${FLYWAY_ENABLED:true}
     url: jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf8&maxAllowedPacket=10485760
     user: root
     password: root
     locations: classpath:db/flyway
-    schemas: oauth3
+    schemas: ${DB:oauth2}
     ignore-missing-migrations: false
     ignore-future-migrations: false
     validate-on-migrate: true

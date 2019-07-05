@@ -2,6 +2,7 @@ package xiao.xss.study.demo.oauth2.auth.server.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import xiao.xss.study.demo.oauth2.auth.server.exception.PasswordInvalidateExcept
 import xiao.xss.study.demo.oauth2.auth.server.exception.UsernameNotFoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,25 +29,22 @@ public class UserService {
     @Autowired private PasswordEncoder encoder;
 
     public UserDetails loadUserByUsername(String username) {
-        Optional<SysUser> optional = userRepository.findByUsername(username);
-        SysUser user = optional.orElseThrow(() -> {
-            log.warn("username not found '{}'", username);
-            return new UsernameNotFoundException(String.format("username not found '%s'", username));
-        });
-        if(!user.isActive()) {
-            log.warn("account is not active");
-            throw new AccountNotActiveException("account is not active");
-        }
-        return new User(username, user.getPassword(), user.isActive(), user.isActive(), user.isActive(), user.isActive(), new ArrayList<>());
+        SysUser user = loadUser(username, null, false);
+        return createAuthUser(user);
     }
 
     public UserDetails loadUser(String username, String password) {
+        SysUser user = loadUser(username, password, true);
+        return createAuthUser(user);
+    }
+
+    private SysUser loadUser(String username, String password, boolean checkPwd) {
         Optional<SysUser> optional = userRepository.findByUsername(username);
         SysUser user = optional.orElseThrow(() -> {
             log.warn("username not found '{}'", username);
             return new UsernameNotFoundException(String.format("username not found '%s'", username));
         });
-        if(!encoder.matches(password, user.getPassword())) {
+        if(checkPwd && !encoder.matches(password, user.getPassword())) {
             log.warn("password invalidate");
             throw new PasswordInvalidateException("password invalidate");
         }
@@ -53,6 +52,12 @@ public class UserService {
             log.warn("account is not active");
             throw new AccountNotActiveException("account is not active");
         }
-        return new User(username, user.getPassword(), user.isActive(), user.isActive(), user.isActive(), user.isActive(), new ArrayList<>());
+        return user;
+    }
+
+    private UserDetails createAuthUser(SysUser user) {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getAuthorities().forEach(auth -> authorities.add(new SimpleGrantedAuthority(auth.getCode())));
+        return new User(user.getUsername(), user.getPassword(), user.isActive(), user.isActive(), user.isActive(), user.isActive(), authorities);
     }
 }

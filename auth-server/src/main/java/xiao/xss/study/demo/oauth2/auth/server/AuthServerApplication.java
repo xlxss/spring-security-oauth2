@@ -12,7 +12,7 @@ import xiao.xss.study.demo.oauth2.auth.server.common.AuthServer;
 @SpringBootApplication
 public class AuthServerApplication {
     public static void main(String[] args) {
-        System.out.println("Auth-Server: " + AuthServer.SERVER_VERSION);
+        AuthServer.showVersion();
         SpringApplication.run(AuthServerApplication.class, args);
     }
 }

@@ -6,6 +6,7 @@ import xiao.xss.study.demo.oauth2.auth.server.common.AuthServer;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class SysUser extends BaseEntity implements Serializable {
     private boolean active;
 
     @Transient
-    private List<SysRole> roles;
+    private List<SysRole> roles = Collections.emptyList();
     @Transient
-    private List<SysAuthority> authorities;
+    private List<SysAuthority> authorities = Collections.emptyList();
 }
