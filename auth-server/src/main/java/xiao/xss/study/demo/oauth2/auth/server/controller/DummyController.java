@@ -4,15 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xiao.xss.study.demo.oauth2.auth.server.entity.*;
 import xiao.xss.study.demo.oauth2.auth.server.entity.repository.*;
+import xiao.xss.study.demo.oauth2.auth.server.security.LocalClientDetailsService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 测试
@@ -114,5 +115,30 @@ public class DummyController {
         log.debug("Grant authorities '{}:{}' to user '{}:{}'", userAuthority.getUser().getUsername(), userAuthority.getUser().getName(),
                 userAuthority.getAuthority().getCode(), userAuthority.getAuthority().getName());
         return "OK";
+    }
+
+    @Autowired private LocalClientDetailsService clientDetailsService;
+
+    @GetMapping("/dummy/client/add")
+    public String addClient(
+            String clientId, String password, String grantTypes, String scopes, String authorities,
+            Integer tokenValidSeconds, Integer refreshTokenValidSeconds, String redirectUris
+    ) {
+        BaseClientDetails client = new BaseClientDetails();
+        client.setClientId(clientId);
+        client.setClientSecret(encoder.encode(password));
+        //client.setResourceIds(Arrays.asList("order"));
+        // 该客户端允许的授权类型
+        client.setAuthorizedGrantTypes(Arrays.asList(grantTypes.split(",")));
+        // 允许的授权范围
+        client.setScope(Arrays.asList(scopes.split(",")));
+        // 客户端的权限
+        client.setAuthorities(AuthorityUtils.createAuthorityList(authorities.split(",")));
+        client.setAccessTokenValiditySeconds(tokenValidSeconds);
+        client.setRefreshTokenValiditySeconds(refreshTokenValidSeconds);
+        Set<String> uris = new HashSet<>(Arrays.asList(redirectUris.split(",")));
+        client.setRegisteredRedirectUri(uris);
+        clientDetailsService.addClientDetails(client);
+        return "Client add OK";
     }
 }

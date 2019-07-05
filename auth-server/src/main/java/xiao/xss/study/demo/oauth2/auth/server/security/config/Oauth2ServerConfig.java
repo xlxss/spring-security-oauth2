@@ -2,7 +2,7 @@ package xiao.xss.study.demo.oauth2.auth.server.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import xiao.xss.study.demo.oauth2.auth.server.security.LocalClientDetailsService;
 import xiao.xss.study.demo.oauth2.auth.server.security.LocalUserDetailsService;
 
 /**
@@ -22,10 +23,11 @@ import xiao.xss.study.demo.oauth2.auth.server.security.LocalUserDetailsService;
 @Configuration
 public class Oauth2ServerConfig {
     @Autowired private LocalUserDetailsService localUserDetailsService;
-    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private LocalClientDetailsService clientDetailsService;
     @Autowired private AuthorizationCodeServices authorizationCodeServices;
     @Autowired private TokenStore tokenStore;
     @Autowired private DefaultTokenServices defaultTokenServices;
+    @Autowired private AuthenticationManager authenticationManager;
 
     // 认证授权服务配置
     @Configuration
@@ -45,17 +47,7 @@ public class Oauth2ServerConfig {
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // 定义客户端详细信息服务的配置程序。可以初始化客户端详细信息，也可以只引用现有存储
             super.configure(clients);
-            clients.inMemory()
-                    // 客户端id和密钥
-                    .withClient("client")
-                    .secret(passwordEncoder.encode("123456"))
-                    // 只提供授权码模式授权服务
-                    .authorizedGrantTypes("authorization_code", "refresh_token")
-                    // 配置允许的回调URL，在获取授权码和获取访问令牌时所传递的回调URL必须在配置的URL范围内
-                    .redirectUris("https://www.baidu.com")
-                    // 不添加scope项目无法启动
-                    .scopes("all")
-            ;
+            clients.withClientDetails(clientDetailsService);
         }
 
         @Override
@@ -67,6 +59,7 @@ public class Oauth2ServerConfig {
             endpoints.reuseRefreshTokens(true);
             endpoints.tokenStore(tokenStore);
             endpoints.tokenServices(defaultTokenServices);
+            endpoints.authenticationManager(authenticationManager); // 开启密码认证模式
 
             // 授权模式配置
             // 1.通过注入AuthenticationManager，可以打开密码授权
