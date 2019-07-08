@@ -31,7 +31,7 @@ CREATE TABLE `sys_user` (
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) DEFAULT NULL,
+  `code` varchar(15) DEFAULT NULL,
   `name` varchar(15) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `sys_role` (
 DROP TABLE IF EXISTS `sys_authority`;
 CREATE TABLE `sys_authority` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) DEFAULT NULL,
+  `code` varchar(15) DEFAULT NULL,
   `name` varchar(15) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,

@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import xiao.xss.study.demo.oauth2.auth.server.entity.SysAuthority;
 import xiao.xss.study.demo.oauth2.auth.server.entity.SysUser;
+import xiao.xss.study.demo.oauth2.auth.server.entity.repository.SysUserAuthorityRepository;
 import xiao.xss.study.demo.oauth2.auth.server.entity.repository.SysUserRepository;
 import xiao.xss.study.demo.oauth2.auth.server.exception.AccountNotActiveException;
 import xiao.xss.study.demo.oauth2.auth.server.exception.PasswordInvalidateException;
@@ -27,6 +29,7 @@ import java.util.Optional;
 public class UserService {
     @Autowired private SysUserRepository userRepository;
     @Autowired private PasswordEncoder encoder;
+    @Autowired private SysUserAuthorityRepository sysUserAuthorityRepository;
 
     public UserDetails loadUserByUsername(String username) {
         SysUser user = loadUser(username, null, false);
@@ -52,6 +55,8 @@ public class UserService {
             log.warn("account is not active");
             throw new AccountNotActiveException("account is not active");
         }
+        List<SysAuthority> list = sysUserAuthorityRepository.findAuthorityByUser(user);
+        user.setAuthorities(list == null ? new ArrayList<>() : list);
         return user;
     }
 

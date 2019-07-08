@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class SysAuthority extends BaseEntity {
     private static final long serialVersionUID = AuthServer.SERIAL_VERSION_UID;
 
-    @Column(length = 10)
+    @Column(length = 15)
     private String code;
     @Column(length = 15)
     private String name;
