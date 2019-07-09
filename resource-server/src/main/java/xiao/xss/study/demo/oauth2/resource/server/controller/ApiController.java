@@ -32,7 +32,7 @@ public class ApiController {
         return "Hello3";
     }
 
-    @GetMapping("/api/me")
+    @GetMapping("/app/me")
     public Principal me(Principal principal) {
         return principal;
     }
