@@ -58,8 +58,9 @@ CREATE TABLE `sys_authority` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_authority`;
 CREATE TABLE `sys_role_authority` (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `role_id` bigint(20) NOT NULL,
   `authority_id` bigint(20) NOT NULL,
+  UNIQUE KEY `uk_role_authority_1` (`role_id`,`authority_id`),
   CONSTRAINT `fk_role_authority_1` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `fk_role_authority_2` FOREIGN KEY (`authority_id`) REFERENCES `sys_authority` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
