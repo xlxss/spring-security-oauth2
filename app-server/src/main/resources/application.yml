@@ -1,0 +1,15 @@
+server:
+  port: 8010
+  servlet:
+    context-path: /app
+
+auth:
+  server:
+    provider:
+      local:
+        name: local
+        client-id: local
+        client-secret: 111
+        access-token-uri: http://auth-server:8000/auth/oauth/token
+        redirect-uri: http://client-app:8010/app/auth/local
+

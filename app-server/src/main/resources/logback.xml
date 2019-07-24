@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <property name="APP_NAME" value="app-server"/>
+    <property name="log_dir" value="logs"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d [%-20.20thread] %-5level %-30.30logger{30}[%-4line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_dir}/${APP_NAME}.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/${APP_NAME}.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %level %logger[%line] - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="FILE_ROLLING"/>
+    </root>
+
+    <logger name="xiao.xss.study.demo">
+        <level value="debug"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="debug"/>
+    </logger>
+</configuration>
