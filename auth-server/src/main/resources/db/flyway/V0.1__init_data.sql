@@ -12,5 +12,5 @@ INSERT INTO `sys_role_authority` (`role_id`, `authority_id`) VALUES ('1', '5');
 INSERT INTO `sys_user_role` (`id`, `role_id`, `user_id`) VALUES ('1', '1', '1');
 INSERT INTO `sys_user_authority` (`id`, `authority_id`, `user_id`) VALUES ('1', '5', '1');
 
-INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('weixin', '', '$2a$10$D2lvrKeG1.N2SbJxN6DANuBboguoJLFhFrljETO/O5ESLEM5/XACi', 'all, select', 'authorization_code,client_credentials,refresh_token,password,implicit', 'https://www.baidu.com', 'admin_role', '600', '3600', '{}', '');
+INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('local', '', '$2a$10$D2lvrKeG1.N2SbJxN6DANuBboguoJLFhFrljETO/O5ESLEM5/XACi', 'read, write', 'authorization_code,client_credentials,refresh_token,password,implicit', 'http://client-app:8010/app/auth/local', 'admin_role', '600', '3600', '{}', 'true');
 
