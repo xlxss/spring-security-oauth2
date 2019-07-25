@@ -1,12 +1,12 @@
-package xiao.xss.study.demo.oauth2.app.controller;
+package xiao.xss.study.demo.oauth2.app.thirdparty.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
-import xiao.xss.study.demo.oauth2.app.auth.AppEnum;
-import xiao.xss.study.demo.oauth2.app.auth.AuthFactory;
-import xiao.xss.study.demo.oauth2.app.auth.AuthService;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthFactory;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
 
 /**
  * 登录认证回调

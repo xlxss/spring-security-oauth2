@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.app.auth;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;

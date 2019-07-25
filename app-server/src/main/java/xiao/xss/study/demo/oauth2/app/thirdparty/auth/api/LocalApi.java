@@ -1,9 +1,9 @@
-package xiao.xss.study.demo.oauth2.app.auth.api;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-import xiao.xss.study.demo.oauth2.app.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
 
 /**
  * 本地认证系统

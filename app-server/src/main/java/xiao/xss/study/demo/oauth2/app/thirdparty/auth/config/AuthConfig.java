@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.app.auth.config;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth.config;
 
 import lombok.Data;
 

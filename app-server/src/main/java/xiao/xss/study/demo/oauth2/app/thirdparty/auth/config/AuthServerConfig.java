@@ -1,10 +1,10 @@
-package xiao.xss.study.demo.oauth2.app.auth.config;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import xiao.xss.study.demo.oauth2.app.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

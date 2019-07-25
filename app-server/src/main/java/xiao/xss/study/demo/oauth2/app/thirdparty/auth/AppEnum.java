@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.app.auth;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth;
 
 /**
  * 本系统支持的认证登录系统标识

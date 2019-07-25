@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.app.auth.api;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth.api;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
-import xiao.xss.study.demo.oauth2.app.auth.AppEnum;
-import xiao.xss.study.demo.oauth2.app.auth.AuthService;
-import xiao.xss.study.demo.oauth2.app.auth.config.AuthConfig;
-import xiao.xss.study.demo.oauth2.app.auth.config.AuthServerConfig;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.config.AuthConfig;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.config.AuthServerConfig;
 import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
 
 import javax.annotation.PostConstruct;
@@ -44,7 +44,7 @@ public abstract class AbstractAuthApi implements AuthService {
         System.out.println(res.getBody());
         Map<String, String> body = res.getBody();
         AccessToken token = new AccessToken();
-        token.setApp(me());
+        token.setAppName(me().getName());
         if(body != null) {
             token.setTokenType(body.get("token_type"));
             token.setAccessToken(body.get("access_token"));

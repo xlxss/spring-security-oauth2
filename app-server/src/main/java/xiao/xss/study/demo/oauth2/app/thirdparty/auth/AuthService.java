@@ -1,4 +1,4 @@
-package xiao.xss.study.demo.oauth2.app.auth;
+package xiao.xss.study.demo.oauth2.app.thirdparty.auth;
 
 import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
 
