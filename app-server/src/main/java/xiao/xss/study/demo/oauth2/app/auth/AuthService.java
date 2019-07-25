@@ -9,6 +9,10 @@ import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
  * @since 2019-07-24 13:57
  */
 public interface AuthService {
-    public AppEnum me();
-    public AccessToken getAccessToken(String authCode);
+    String TOKEN_URL = "%s?grant_type=%s&client_id=%s&client_secret=%s&redirect_uri=%s&code=%s&scope=%s";
+    String REFRESH_TOKEN_URL = "%s?grant_type=refresh_token&refresh_token=%s&client_id=%s&client_secret=%s";
+
+    AppEnum me();
+    AccessToken getAccessToken(String authCode);
+    AccessToken refreshToken(String refreshToken);
 }

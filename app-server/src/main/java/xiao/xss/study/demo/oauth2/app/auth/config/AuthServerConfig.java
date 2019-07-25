@@ -1,6 +1,5 @@
 package xiao.xss.study.demo.oauth2.app.auth.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
@@ -17,7 +16,6 @@ import java.util.Map;
  * @author xiaoliang
  * @since 2019-07-24 14:00
  */
-@Data
 @Configuration
 @ConfigurationProperties(prefix = "auth.server")
 public class AuthServerConfig {
@@ -38,7 +36,6 @@ public class AuthServerConfig {
     }
 
     private void checkConfig(AuthConfig authConfig) {
-        System.out.println(authConfig);
         if (!StringUtils.hasText(authConfig.getClientId())) {
             throw new IllegalStateException("client-id不能为空");
         }
@@ -53,17 +50,12 @@ public class AuthServerConfig {
         }
     }
 
+    public void setProvider(Map<String, AuthConfig> provider) {
+        this.provider = provider;
+    }
+
     @Override
     public String toString() {
         return provider.toString();
-    }
-
-    @Data
-    public static class AuthConfig {
-        private String name;
-        private String clientId;
-        private String clientSecret;
-        private String accessTokenUri;
-        private String redirectUri;
     }
 }

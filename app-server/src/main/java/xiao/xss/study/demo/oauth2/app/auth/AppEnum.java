@@ -34,4 +34,9 @@ public enum AppEnum {
     public String getDesc() {
         return this.desc;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", desc, name);
+    }
 }
