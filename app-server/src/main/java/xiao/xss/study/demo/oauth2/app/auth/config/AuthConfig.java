@@ -13,6 +13,7 @@ public class AuthConfig {
     private String name;
     private String clientId;
     private String clientSecret;
+    private String authorizeUri;
     private String accessTokenUri;
     private String redirectUri;
     private String scope = "";

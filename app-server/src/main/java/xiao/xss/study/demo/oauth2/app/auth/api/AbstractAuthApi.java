@@ -65,6 +65,13 @@ public abstract class AbstractAuthApi implements AuthService {
     }
 
     @Override
+    public String authorizeUrl() {
+        AuthConfig config = getConfig();
+        Assert.notNull(config, "认证服务配置缺失");
+        return String.format(AUTHORIZE_URL, config.getAuthorizeUri(), config.getClientId(), config.getRedirectUri());
+    }
+
+    @Override
     public abstract AppEnum me();
 
     public abstract Logger logger();

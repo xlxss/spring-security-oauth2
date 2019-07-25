@@ -10,6 +10,7 @@ auth:
         name: local
         client-id: local
         client-secret: 111
+        authorize-uri: http://auth-server:8000/auth/oauth/authorize
         access-token-uri: http://auth-server:8000/auth/oauth/token
-        redirect-uri: http://client-app:8010/app/auth/local
+        redirect-uri: http://localhost:8080/auth/login/local
 
