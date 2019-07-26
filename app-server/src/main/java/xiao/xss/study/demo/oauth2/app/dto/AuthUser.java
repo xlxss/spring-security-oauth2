@@ -2,6 +2,7 @@ package xiao.xss.study.demo.oauth2.app.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import xiao.xss.study.demo.oauth2.app.common.App;
 import xiao.xss.study.demo.oauth2.app.entity.SysUser;
 
 import java.util.Collection;
@@ -13,12 +14,17 @@ import java.util.Collection;
  * @since 2019-07-25 15:21
  */
 public class AuthUser implements UserDetails {
+    private static final long serialVersionUID = App.SERIAL_VERSION_UID;
     private SysUser sysUser;
     private Collection<? extends  GrantedAuthority> authorities;
 
     public AuthUser(SysUser sysUser, Collection<? extends GrantedAuthority> authorities) {
         this.sysUser = sysUser;
         this.authorities = authorities;
+    }
+
+    public SysUser getSysUser() {
+        return this.sysUser;
     }
 
     @Override

@@ -9,10 +9,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import xiao.xss.study.demo.oauth2.app.auth.LocalAuthDetailsSource;
 import xiao.xss.study.demo.oauth2.app.auth.entrypoint.UnAuthorizedEntryPoint;
 import xiao.xss.study.demo.oauth2.app.auth.filter.AuthenticationTokenCheckFilter;
+import xiao.xss.study.demo.oauth2.app.auth.handler.LoginFailureHandler;
+import xiao.xss.study.demo.oauth2.app.auth.handler.LoginSuccessHandler;
+import xiao.xss.study.demo.oauth2.app.auth.handler.LogoutSuccessHandler;
 import xiao.xss.study.demo.oauth2.app.auth.provider.UsernamePasswordProvider;
+import xiao.xss.study.demo.oauth2.app.service.UserService;
 
 /**
  * security config
@@ -23,13 +29,12 @@ import xiao.xss.study.demo.oauth2.app.auth.provider.UsernamePasswordProvider;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired private UsernamePasswordProvider usernamePasswordProvider;
-    @Autowired private UnAuthorizedEntryPoint unAuthorizedEntryPoint;
-    @Autowired private AuthenticationTokenCheckFilter authenticationTokenCheckFilter;
+    @Autowired private UserService userService;
+    @Autowired private PasswordEncoder encoder;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(usernamePasswordProvider);
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(new UsernamePasswordProvider(userService, encoder));
     }
 
     @Override
@@ -40,16 +45,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().and()
-                .exceptionHandling().authenticationEntryPoint(unAuthorizedEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(new UnAuthorizedEntryPoint())
                 .and()
                 .requestMatchers()
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/auth/login")
+                .authenticationDetailsSource(new LocalAuthDetailsSource())
+                .successHandler(new LoginSuccessHandler())
+                .failureHandler(new LoginFailureHandler())
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/auth/logout")
+                .logoutSuccessHandler(new LogoutSuccessHandler())
+                .clearAuthentication(true)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
 
         // 令牌校验过滤器
-        http.addFilterBefore(authenticationTokenCheckFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthenticationTokenCheckFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

@@ -15,7 +15,7 @@ import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
  * @since 2019-07-24 13:51
  */
 @RestController
-public class AuthController {
+public class ThirdpartyAuthController {
     @Autowired private AuthFactory factory;
 
     @GetMapping("/auth/{appName}/authorize")
