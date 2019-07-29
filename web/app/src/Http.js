@@ -1,5 +1,6 @@
 import axios from 'axios'
 import APP from '@/config/APP'
+import qs from 'qs'
 
 export const get = (url, params, fn) => {
     console.log('Http.get in');
@@ -13,9 +14,32 @@ export const get = (url, params, fn) => {
         })
         .catch(err => console.log(err));
 };
+// 本地用户登录
+export const localLogin = ({data, headers, done = () => {}}) => {
+    debugger;
+    console.log(data, headers);
+    axios.request({
+        method: "POST",
+        url: `${APP.REST.BASE_URI}/auth/login`,
+        data: qs.stringify(data),
+        headers: {
+            ...headers,
+            'Content-type': 'application/x-www-form-urlencoded'
+            // 'Content-type': 'multipart/form-data'
+        }
+    })
+        .then(res => {
+            debugger;
+            done(res.data);
+        })
+        .catch(err => {
+            debugger;
+            console.log(err)
+        });
+};
 
 // 登录
-export const login = (appName) => {
+export const login2 = (appName) => {
     appName = appName || 'local';
     axios.get(`${APP.REST.BASE_URI}/auth/${appName}/authorize`)
         .then(res => {
