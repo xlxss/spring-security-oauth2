@@ -43,5 +43,6 @@ auth:
         client-secret: 111
         authorize-uri: http://auth-server:8000/auth/oauth/authorize
         access-token-uri: http://auth-server:8000/auth/oauth/token
+        user-info-uri: http://auth-server:8000/auth/oauth/userInfo
         redirect-uri: http://localhost:8080/auth/login/local
 

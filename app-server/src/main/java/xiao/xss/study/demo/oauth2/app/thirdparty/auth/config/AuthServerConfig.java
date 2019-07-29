@@ -48,6 +48,9 @@ public class AuthServerConfig {
         if (!StringUtils.hasText(authConfig.getRedirectUri())) {
             throw new IllegalStateException("redirect-uri不能为空.");
         }
+        if (!StringUtils.hasText(authConfig.getUserInfoUri())) {
+            throw new IllegalStateException("user-info-uri不能为空.");
+        }
     }
 
     public void setProvider(Map<String, AuthConfig> provider) {

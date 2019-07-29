@@ -18,6 +18,7 @@ import xiao.xss.study.demo.oauth2.app.auth.handler.LoginFailureHandler;
 import xiao.xss.study.demo.oauth2.app.auth.handler.LoginSuccessHandler;
 import xiao.xss.study.demo.oauth2.app.auth.handler.LogoutSuccessHandler;
 import xiao.xss.study.demo.oauth2.app.auth.provider.UsernamePasswordProvider;
+import xiao.xss.study.demo.oauth2.app.auth.token.JwtTokenUtil;
 import xiao.xss.study.demo.oauth2.app.service.UserService;
 
 /**
@@ -31,6 +32,7 @@ import xiao.xss.study.demo.oauth2.app.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private UserService userService;
     @Autowired private PasswordEncoder encoder;
+    @Autowired private JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -63,10 +65,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/error").permitAll()
                 .anyRequest().authenticated();
 
         // 令牌校验过滤器
-        http.addFilterBefore(new AuthenticationTokenCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthenticationTokenCheckFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

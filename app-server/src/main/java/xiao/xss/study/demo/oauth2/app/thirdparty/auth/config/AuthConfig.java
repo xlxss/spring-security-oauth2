@@ -16,6 +16,7 @@ public class AuthConfig {
     private String authorizeUri;
     private String accessTokenUri;
     private String redirectUri;
+    private String userInfoUri;
     private String scope = "";
     private String grantType = "authorization_code";
 }

@@ -1,12 +1,14 @@
 package xiao.xss.study.demo.oauth2.app.auth.entrypoint;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 未登录返回401
@@ -16,11 +18,15 @@ import java.io.IOException;
  */
 public class UnAuthorizedEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        Map<String, Object> map = new HashMap<>();
         if("OPTIONS".equals(request.getMethod())){
-            response.sendError(HttpStatus.NO_CONTENT.value());
-            return;
+            map.put("status", 204);
+        } else {
+            map.put("status", "401");
+            map.put("message", authException.getMessage());
         }
-        response.sendError(HttpStatus.UNAUTHORIZED.value(), authException.getMessage());
+        request.setAttribute("error", map);
+        request.getRequestDispatcher("/auth/common/error").forward(request, response);
     }
 }

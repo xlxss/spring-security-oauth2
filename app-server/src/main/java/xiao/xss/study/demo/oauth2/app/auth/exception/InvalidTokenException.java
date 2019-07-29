@@ -1,21 +1,21 @@
 package xiao.xss.study.demo.oauth2.app.auth.exception;
 
-import org.springframework.security.core.AuthenticationException;
 import xiao.xss.study.demo.oauth2.app.common.App;
 
 /**
- * 认证异常
+ * 无效Token异常
  *
  * @author xiaoliang
- * @since 2019-07-26 10:16
+ * @since 2019-07-29 13:55
  */
-public class AuthException extends AuthenticationException {
+public class InvalidTokenException extends AuthException {
     private static final long serialVersionUID = App.SERIAL_VERSION_UID;
-    public AuthException(String msg, Throwable t) {
+
+    public InvalidTokenException(String msg, Throwable t) {
         super(msg, t);
     }
 
-    public AuthException(String msg) {
+    public InvalidTokenException(String msg) {
         super(msg);
     }
 }

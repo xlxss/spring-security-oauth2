@@ -24,6 +24,7 @@ public class UserService {
             SysUser user = new SysUser();
             user.setUsername(username);
             user.setPassword(encoder.encode("admin"));
+            user.setName("管理员");
             user.setActive(true);
             authUser = new AuthUser(user, new ArrayList<>());
         }
@@ -31,6 +32,7 @@ public class UserService {
             SysUser user = new SysUser();
             user.setUsername(username);
             user.setPassword(encoder.encode("gust"));
+            user.setName("来宾");
             user.setActive(true);
             authUser = new AuthUser(user, new ArrayList<>());
         }
@@ -38,6 +40,7 @@ public class UserService {
             SysUser user = new SysUser();
             user.setUsername(username);
             user.setPassword(encoder.encode("admin"));
+            user.setName("不可用");
             user.setActive(false);
             authUser = new AuthUser(user, new ArrayList<>());
         }
