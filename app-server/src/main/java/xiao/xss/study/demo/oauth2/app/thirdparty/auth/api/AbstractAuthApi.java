@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
-import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthProvider;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.config.AuthConfig;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.config.AuthServerConfig;
@@ -72,7 +72,7 @@ public abstract class AbstractAuthApi implements AuthService {
     }
 
     @Override
-    public abstract AppEnum me();
+    public abstract AuthProvider me();
 
     public abstract Logger logger();
 

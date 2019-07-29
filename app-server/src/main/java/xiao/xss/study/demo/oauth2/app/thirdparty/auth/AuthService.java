@@ -13,7 +13,7 @@ public interface AuthService {
     String TOKEN_URL = "%s?grant_type=%s&client_id=%s&client_secret=%s&redirect_uri=%s&code=%s&scope=%s";
     String REFRESH_TOKEN_URL = "%s?grant_type=refresh_token&refresh_token=%s&client_id=%s&client_secret=%s";
 
-    AppEnum me();
+    AuthProvider me();
     AccessToken getAccessToken(String authCode);
     AccessToken refreshToken(String refreshToken);
     String authorizeUrl();

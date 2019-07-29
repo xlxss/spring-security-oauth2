@@ -19,9 +19,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class AuthFactory implements ApplicationContextAware {
-    private final Map<AppEnum, AuthService> services = new HashMap<>();
+    private final Map<AuthProvider, AuthService> services = new HashMap<>();
 
-    public AuthService getService(AppEnum app) {
+    public AuthService getService(AuthProvider app) {
         Assert.notNull(app, "必须提供认证服务标识");
         AuthService service = services.get(app);
         Assert.notNull(service, String.format("未提供认证服务实现: %s", app));
@@ -32,7 +32,7 @@ public class AuthFactory implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         Map<String, AuthService> map = context.getBeansOfType(AuthService.class);
         map.forEach((key, value) -> {
-            AppEnum app = AppEnum.of(key);
+            AuthProvider app = AuthProvider.of(key);
             if(app != null) {
                 services.put(app, value);
                 log.debug("添加登录认证服务，认证主体: {}, name: {}, type: {}", app.getDesc(), app.getName(), value.getClass().getTypeName());

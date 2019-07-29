@@ -3,7 +3,7 @@ package xiao.xss.study.demo.oauth2.app.thirdparty.auth.api;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthProvider;
 
 /**
  * 本地认证系统
@@ -15,8 +15,8 @@ import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
 @Slf4j
 public class LocalApi extends AbstractAuthApi {
     @Override
-    public AppEnum me() {
-        return AppEnum.LOCAL;
+    public AuthProvider me() {
+        return AuthProvider.LOCAL;
     }
 
     @Override

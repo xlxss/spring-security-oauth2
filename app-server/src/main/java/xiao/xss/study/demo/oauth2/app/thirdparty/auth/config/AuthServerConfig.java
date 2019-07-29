@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AppEnum;
+import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthProvider;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class AuthServerConfig {
     private Map<String, AuthConfig> provider = new HashMap<>();
 
-    public AuthConfig getConfig(AppEnum app) {
+    public AuthConfig getConfig(AuthProvider app) {
         Assert.notNull(app, "必须提供认证服务标识");
         return provider.entrySet().stream()
                 .filter(kv -> app.getName().equalsIgnoreCase(kv.getKey()) || app.getName().equalsIgnoreCase(kv.getValue().getName()))
