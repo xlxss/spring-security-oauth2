@@ -32,7 +32,6 @@ public class AuthenticationTokenCheckFilter extends OncePerRequestFilter {
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // TODO START
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(bearerToken != null && bearerToken.length() > 0) {
             if(bearerToken.startsWith("Bearer ")) {
@@ -43,15 +42,12 @@ public class AuthenticationTokenCheckFilter extends OncePerRequestFilter {
                 } else {
                     entryPoint.commence(request, response, new InvalidTokenException("无效的token"));
                     return;
-//                    throw new InvalidTokenException("无效的token");
                 }
             } else {
                 entryPoint.commence(request, response, new InvalidTokenException("无效的token"));
                 return;
-//                throw new InvalidTokenException("无效的token");
             }
         }
-        // TODO END
 
         filterChain.doFilter(request, response);
     }

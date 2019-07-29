@@ -72,6 +72,11 @@ public abstract class AbstractAuthApi implements AuthService {
     }
 
     @Override
+    public boolean checkToken(String accessToken) {
+        return true;
+    }
+
+    @Override
     public abstract AuthProvider me();
 
     public abstract Logger logger();

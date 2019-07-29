@@ -28,7 +28,7 @@ public class AuthController {
     public Object loginSuccess(Principal principal) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AuthUser user = (AuthUser) auth.getPrincipal();
-        TokenAndUser tokenAndUser = jwtTokenUtil.creatToken(user);
+        TokenAndUser tokenAndUser = jwtTokenUtil.createToken(user, null);
         System.out.println(tokenAndUser);
         System.out.println(principal);
         return tokenAndUser;

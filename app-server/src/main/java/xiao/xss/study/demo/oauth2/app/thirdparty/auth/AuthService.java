@@ -17,4 +17,5 @@ public interface AuthService {
     AccessToken getAccessToken(String authCode);
     AccessToken refreshToken(String refreshToken);
     String authorizeUrl();
+    boolean checkToken(String accessToken);
 }
