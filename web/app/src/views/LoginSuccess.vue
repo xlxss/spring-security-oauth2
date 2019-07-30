@@ -1,12 +1,26 @@
 <template>
     <div>
         <p>Login Success</p>
+        <p>{{msg}}</p>
     </div>
 </template>
 
 <script>
+    import {get} from '@/Http'
     export default {
-        name: "LoginSuccess"
+        name: "LoginSuccess",
+        data() {
+            return {
+                msg: ''
+            }
+        },
+        mounted() {
+            const config = {
+                url: '/test',
+                done: data => this.msg = data,
+            };
+            get(config);
+        }
     }
 </script>
 

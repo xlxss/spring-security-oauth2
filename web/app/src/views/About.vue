@@ -5,4 +5,11 @@
 </template>
 
 <script>
+  import {get} from '@/Http'
+  export default {
+    name: 'about',
+    mounted() {
+      get({url: '/test'});
+    }
+  }
 </script>

@@ -32,9 +32,12 @@
                     'headers': {
                         'X-Login-Type': 'username'
                     },
-                    done: data => console.log(data)
+                    done: data => {
+                        console.log(data);
+                        this.$router.push('/login/success');
+                    }
                 };
-                login(body)
+                localLogin(body)
             }
         }
     }
