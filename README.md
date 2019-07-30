@@ -12,7 +12,7 @@ spring security oauth2 认证授权&第三方登录
    3. AuthProvider.java中添加一项实例，名称要和第2步中配置的节点名保持一致
    4. 定义认证Api继承AbstractAuthApi.java并实现抽象方法，组件名称要和第2步中的节点名保持一致
    5. 前端页面增加第三方登录连接
-   * 注：redirect-uri为前端地址/auth/login/<name>，name：第2步中的节点名
+   * 注：redirect-uri为前端地址/auth/login/name，name：第2步中的节点名
 
 2. 本系统登录方式扩展概要
    1. LoginType.java中新增登录方式配置
