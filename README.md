@@ -1,7 +1,41 @@
 # spring-security-oauth2
-spring security oauth2 认证授权
----
-### 认证中心授权模式
+spring security oauth2 认证授权&第三方登录
+-----------------------------
+### 集成第三方登录
+- auth-server：模拟第三方认证登录，端口8000
+- app-server：本地应用后端微服务，端口8010
+- web/app：本地应用vue前端，端口8080
+
+1. 第三方登录扩展概要
+   1. 在第三方平台注册，获取到client_id、client_secret、authorize-uri、access-token-uri、user-info-uri、redirect-uri
+   2. 将第1步得到的信息配置到application.yml文件中的auth.server.provider下，每家认证中心一个节点
+   3. AuthProvider.java中添加一项实例，名称要和第2步中配置的节点名保持一致
+   4. 定义认证Api继承AbstractAuthApi.java并实现抽象方法，组件名称要和第2步中的节点名保持一致
+   5. 前端页面增加第三方登录连接
+   * 注：redirect-uri为前端地址/auth/login/<name>，name：第2步中的节点名
+
+2. 本系统登录方式扩展概要
+   1. LoginType.java中新增登录方式配置
+   2. 定义登录实现类继承AbstractAuthenticationProvider.java并实现其方法
+   3. 前端登录页面新增登录方式选择器
+   4. 登录时将选择的登录方式（第1步中添加的实例的名称）添加到X-Login-Type头部中
+
+3. 遗留问题
+   1. 微服务端用户、权限管理服务未实现，需根据系统需要进行改造
+   2. 令牌的生成、校验、注销等逻辑只是简单的权宜之计，需根据系统需要进行改造
+   3. 注销登录未实现
+   4. 前端异常处理未实现
+
+4. 本系统为其它系统授权登录
+   1. 配置AuthorizationServer
+   2. 配置ResourceServer
+   3. 提供客户端应用注册接口，生成client_id、client_secret
+   4. 提供对外资源接口，并在ResourceServer的配置中保护起来
+
+5. 单点登录实现方式参考oauth2-sso项目，sso前后端分离可参考本项目方案
+-----------------------------
+
+##### 认证中心授权模式
 1. 授权码模式（authorization-code）
 ```
 * 前提条件：
