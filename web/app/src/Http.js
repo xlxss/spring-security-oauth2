@@ -21,7 +21,6 @@ export const get = ({url, params, done, fail}) => {
 
 // 本地用户登录
 export const localLogin = ({data, headers, done, fail}) => {
-    debugger;
     console.log(data, headers);
     axios.request({
         method: "POST",
@@ -64,11 +63,11 @@ export const logout = ({done, fail}) => {
     }).catch(err => failure(err, fail));
 };
 // 获取访问令牌
-export const getToken = ({code, provider, done, fail}) => {
+export const getToken = ({authCode, provider, done, fail}) => {
     axios.request({
         method: 'POST',
         url: `${APP.REST.BASE_URI}/auth/${provider}/token`,
-        data: qs.stringify({'authCode': code}),
+        data: qs.stringify({'authCode': authCode}),
         headers: {
             'Content-type': 'application/x-www-form-urlencoded'
         }
@@ -102,7 +101,7 @@ const checkToken = () => {
 
 // 更新访问令牌
 const refreshToken = () => {
-    const token = JSON.parse(localStorage.getItem('app_token'));
+    const token = JSON.parse(sessionStorage.getItem('app_token'));
     return new Promise((resolve, reject) => {
         axios.request({
             method: 'POST',
@@ -136,12 +135,25 @@ const success = (data, done) => {
 const failure = (err, fail) => {
     if(typeof fail === 'function') {
         const body = {
-            status: err.response.status,
-            statusText: err.response.statusText,
-            msg: err.response.data,
+            status: '',
+            statusText: '',
+            msg: ''
         };
+        if(err && err.response) {
+            body.status = err.response.status;
+            body.statusText = err.response.statusText;
+            body.msg = err.response.data;
+        } else if(err) {
+            body.status = 500;
+            body.statusText = err;
+            body.msg = err;
+        } else {
+            body.status = 500;
+            body.statusText = '未知异常';
+            body.msg = '未知异常';
+        }
         fail(body);
     } else {
-        console.log(err.response);
+        console.log(err);
     }
 };

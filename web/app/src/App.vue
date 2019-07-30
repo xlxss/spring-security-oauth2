@@ -1,12 +1,24 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/home">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/">Login</router-link> |
+      <router-link to="/logout" v-on:click="logout">Logout</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+  export default {
+    methods: {
+      logout: () => {
+        sessionStorage.clear();
+      }
+    }
+  }
+</script>
 
 <style>
 #app {

@@ -15,7 +15,7 @@ import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthProvider;
 @Slf4j
 public class LocalApi extends AbstractAuthApi {
     @Override
-    public AuthProvider me() {
+    public AuthProvider provider() {
         return AuthProvider.LOCAL;
     }
 

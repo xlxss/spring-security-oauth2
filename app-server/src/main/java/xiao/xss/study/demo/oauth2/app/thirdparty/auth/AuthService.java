@@ -1,6 +1,7 @@
 package xiao.xss.study.demo.oauth2.app.thirdparty.auth;
 
-import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
+import xiao.xss.study.demo.oauth2.app.dto.TokenAndUser;
+import xiao.xss.study.demo.oauth2.app.dto.TokenInfo;
 
 /**
  * 认证服务
@@ -13,9 +14,9 @@ public interface AuthService {
     String TOKEN_URL = "%s?grant_type=%s&client_id=%s&client_secret=%s&redirect_uri=%s&code=%s&scope=%s";
     String REFRESH_TOKEN_URL = "%s?grant_type=refresh_token&refresh_token=%s&client_id=%s&client_secret=%s";
 
-    AuthProvider me();
-    AccessToken getAccessToken(String authCode);
-    AccessToken refreshToken(String refreshToken);
+    AuthProvider provider();
+    TokenAndUser getAccessToken(String authCode);
+    TokenInfo refreshToken(String refreshToken);
     String authorizeUrl();
     boolean checkToken(String accessToken);
 }

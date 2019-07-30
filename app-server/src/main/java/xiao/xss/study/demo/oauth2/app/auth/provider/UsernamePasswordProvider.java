@@ -42,6 +42,6 @@ public class UsernamePasswordProvider extends AbstractAuthenticationProvider {
 
     @Override
     public boolean supports(LoginType type) {
-        return LoginType.USERNAME.equals(type);
+        return LoginType.UP.equals(type);
     }
 }

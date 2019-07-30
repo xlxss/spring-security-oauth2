@@ -3,10 +3,12 @@ package xiao.xss.study.demo.oauth2.app.thirdparty.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import xiao.xss.study.demo.oauth2.app.dto.AccessToken;
+import xiao.xss.study.demo.oauth2.app.dto.TokenAndUser;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthProvider;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthFactory;
 import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 登录认证回调
@@ -18,26 +20,19 @@ import xiao.xss.study.demo.oauth2.app.thirdparty.auth.AuthService;
 public class ThirdpartyAuthController {
     @Autowired private AuthFactory factory;
 
-    @GetMapping("/auth/{appName}/authorize")
-    public String authorize(@PathVariable String appName) {
-        AuthProvider app = AuthProvider.of(appName);
+    @GetMapping("/auth/{provider}/authorize")
+    public String authorize(@PathVariable String provider) {
+        AuthProvider app = AuthProvider.of(provider);
         AuthService service = factory.getService(app);
         return service.authorizeUrl();
     }
 
-    @PostMapping("/auth/{appName}/token")
-    public AccessToken token(@PathVariable String appName, @RequestParam(value = "code") String authCode) {
-        AuthProvider app = AuthProvider.of(appName);
-        Assert.notNull(app, String.format("暂不支持%s方式登录", appName));
+    @PostMapping("/auth/{provider}/token")
+    public TokenAndUser token(@PathVariable String provider, HttpServletRequest request) {
+        String authCode = request.getParameter("authCode");
+        AuthProvider app = AuthProvider.of(provider);
+        Assert.notNull(app, String.format("暂不支持%s方式登录", provider));
         AuthService service = factory.getService(app);
         return service.getAccessToken(authCode);
-    }
-
-    @PostMapping("/auth/{appName}/refreshToken")
-    public AccessToken refreshToken(@PathVariable String appName, String refreshToken) {
-        AuthProvider app = AuthProvider.of(appName);
-        Assert.notNull(app, String.format("暂不支持%s方式登录", appName));
-        AuthService service = factory.getService(app);
-        return service.refreshToken(refreshToken);
     }
 }

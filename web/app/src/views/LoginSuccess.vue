@@ -14,7 +14,7 @@
                 msg: ''
             }
         },
-        mounted() {
+        beforeCreate() {
             const config = {
                 url: '/test',
                 done: data => this.msg = data,

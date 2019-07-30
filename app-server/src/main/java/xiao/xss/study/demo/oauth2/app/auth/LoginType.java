@@ -7,7 +7,7 @@ package xiao.xss.study.demo.oauth2.app.auth;
  * @since 2019-07-25 17:45
  */
 public enum LoginType {
-    USERNAME("用户名/密码登录"),
+    UP("用户名/密码登录"),
     ;
 
     private final String value;
