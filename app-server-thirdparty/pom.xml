@@ -9,13 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>app-server</artifactId>
+    <artifactId>app-server-thirdparty</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>xiao.xss.study.demo</groupId>
-            <artifactId>app-server-api</artifactId>
+            <artifactId>app-server-auth</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>xiao.xss.study.demo</groupId>
+            <artifactId>app-server-common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

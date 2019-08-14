@@ -2,6 +2,18 @@ import axios from 'axios'
 import APP from '@/config/APP'
 import qs from 'qs'
 
+export const get2 = ({url, params, done, fail}) => {
+    return axios.request({
+        method: 'GET',
+        params: params,
+        url: `${APP.REST.BASE_URI}${url}`,
+    }).then(res => {
+        console.log(res.data);
+        success(res.data, done);
+    }).catch(err => {
+        failure(err, fail);
+    });
+};
 export const get = ({url, params, done, fail}) => {
     Promise.resolve()
         .then(checkToken)

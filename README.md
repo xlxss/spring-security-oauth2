@@ -8,11 +8,11 @@ spring security oauth2 认证授权&第三方登录
 
 1. 第三方登录扩展概要
    1. 在第三方平台注册，获取到client_id、client_secret、authorize-uri、access-token-uri、user-info-uri、redirect-uri
-   2. 将第1步得到的信息配置到application.yml文件中的auth.server.provider下，每家认证中心一个节点
-   3. AuthProvider.java中添加一项实例，名称要和第2步中配置的节点名保持一致
-   4. 定义认证Api继承AbstractAuthApi.java并实现抽象方法，组件名称要和第2步中的节点名保持一致
-   5. 前端页面增加第三方登录连接
-   * 注：redirect-uri为前端地址/auth/login/name，name：第2步中的节点名
+   2. 在app-server-thirdparty模块下新增配置文件application-name.yaml，将第1步得到的信息配置到spring.security.oauth2.client下
+   3. AuthProvider.java中添加一项实例，名称要和第2步中配置的registrationId保持一致
+   4. 定义认证Api继承AuthService.java并实现抽象方法，组件名称要和第2步中的registrationId保持一致
+   5. 更新app-server模块下的application.yml文件，spring.profiles.include节点追加2中配置的registrationId，auth.providers.active节点中追加配置启用该第三方登录认证
+   * 注：redirect-uri可直接配置为前端地址，其中registrationId必须包含在路径中，在前端调用接口获取token和用户信息时需要该值
 
 2. 本系统登录方式扩展概要
    1. LoginType.java中新增登录方式配置

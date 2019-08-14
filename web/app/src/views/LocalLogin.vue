@@ -13,20 +13,37 @@
             <div style="display: table-footer-group">
                 <label style="font-size: 14px">第三方登录：</label>
                 <a id="thirdpartyLogin-local" v-on:click="thirdpartyLogin('local')">local</a>
+                <a v-for="(v,k) in clients" :id="k" v-on:click="auth(v)">{{k}}</a>
+                <p>
+                    <a v-for="(v,k) in clients" :id="k" :href="v">{{k}}</a>
+                </p>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-    import {localLogin, thirdpartyLogin} from '@/Http'
+    import {localLogin, thirdpartyLogin, get2} from '@/Http'
     export default {
         name: "localLogin",
         data() {
             return {
                 username: '',
-                password: ''
+                password: '',
+                clients: {}
             }
+        },
+        created() {
+            // debugger;
+            get2({url:'/auth/clients?callback=http://localhost:8080/login/success', done: result => {
+                    console.log("clients:", result, result.data);
+                    this.clients = result.data;
+                    console.log(this.clients, this.clients.valueOf());
+                    for (let c in this.clients) {
+                        console.log(c, this.clients[c], c.key, c.value)
+                    }
+                }
+            })
         },
         methods: {
             localLogin: function() {
@@ -47,7 +64,11 @@
             },
             thirdpartyLogin: function (provider) {
                 thirdpartyLogin({provider});
-            }
+            },
+            auth: function (url) {
+                console.log('url:', url);
+                get2({url})
+            },
         }
     }
 </script>

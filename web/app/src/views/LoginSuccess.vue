@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import {get} from '@/Http'
+    import {get2} from '@/Http'
     export default {
         name: "LoginSuccess",
         data() {
@@ -15,11 +15,17 @@
             }
         },
         beforeCreate() {
-            const config = {
-                url: '/test',
-                done: data => this.msg = data,
-            };
-            get(config);
+            const code = this.$route.query.code;
+            const provider = this.$route.query.provider;
+            if(provider) {
+                const config = {
+                    url: `/auth/${provider}/token`,
+                    params: {authCode: code},
+                    done: data => this.msg = data,
+                };
+                console.log(this.$route.params, this.$route.query);
+                get2(config);
+            }
         }
     }
 </script>

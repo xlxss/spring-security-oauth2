@@ -19,6 +19,10 @@
         <module>auth-server</module>
         <module>resource-server</module>
         <module>app-server</module>
+        <module>app-server-auth</module>
+        <module>app-server-api</module>
+        <module>app-server-common</module>
+        <module>app-server-thirdparty</module>
     </modules>
 
     <dependencies>
