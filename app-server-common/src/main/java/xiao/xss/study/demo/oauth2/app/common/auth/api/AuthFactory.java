@@ -26,7 +26,7 @@ public class AuthFactory {
 
     public AuthFactory(Environment env, ApplicationContext context) {
         String[] prov = env.getProperty("auth.providers.active", String[].class);
-        if(prov == null) {
+        if(prov == null || prov.length == 0) {
             log.debug("本系统暂不支持第三方登录");
             return;
         }
